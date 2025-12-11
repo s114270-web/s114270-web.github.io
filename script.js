@@ -100,14 +100,14 @@ const questions = [
 
 // 3. 結果描述 (請記得為每個犬種找到一張合適的圖片)
 const results = {
-    borderCollie: { name: "邊境牧羊犬 (Border Collie)", desc: "你極度聰明、專注且精力充沛。你的人生需要目標和挑戰，是天生的優等生和工作狂。如果沒有任務給你，你可能會感到無聊而做出一些『拆家』的行為。", img: "images/bordercollie.jpg" },
-    goldenRetriever: { name: "黃金獵犬 (Golden Retriever)", desc: "你友善、忠誠、樂觀且極度熱愛社交。你是朋友間的陽光，隨時準備好給予擁抱。你溫和且易於訓練，但唯一的弱點可能是對食物的熱愛。", img: "images/goldenretriever.jpg" },
-    shibaInu: { name: "柴犬 (Shiba Inu)", desc: "你高傲、固執且極度獨立。你很有自己的想法，不喜歡被人強迫。你雖然深情，但只會用自己的方式表達，是典型的『愛面子』專家。", img: "images/shibainu.jpg" },
-    chihuahua: { name: "吉娃娃 (Chihuahua)", desc: "你性情敏感多變，有時暴躁，但面對你在乎的人會展現出強烈的保護慾。你外表小巧，但內心卻是個勇敢的戰士，並且非常愛撒嬌。", img: "images/chihuahua.jpg" },
-    poodle: { name: "貴賓犬 (Poodle)", desc: "你優雅、聰明且極度社交。你喜歡被關注、被讚美，並擁有細膩的感情。你的高智商讓你學得很快，但偶爾會有點愛吃醋。", img: "images/poodle.jpg" },
-    husky: { name: "哈士奇 (Siberian Husky)", desc: "你戲劇化、愛說話，並充滿了不受拘束的獨立精神。你充滿好奇心和精力，有時顯得有點笨拙，但總能給周遭帶來歡樂和混亂。", img: "images/husky.jpg" },
-    pug: { name: "巴哥犬 (Pug)", desc: "你是天生的喜劇演員，性格懶散、貪吃且非常幽默。你最喜歡的事情是睡覺和陪伴主人。你對運動興趣不大，但卻是最佳的沙發伴侶。", img: "images/pug.jpg" },
-    germanShepherd: { name: "德國牧羊犬 (German Shepherd)", desc: "你忠誠、嚴謹、專注且擁有強烈的保護慾。你是天生的領導者和守護者，重視秩序和規矩。你對待任務嚴肅，很少有幽默的一面。", img: "images/germanshepherd.jpg" },
+    borderCollie: { name: "邊境牧羊犬 (Border Collie)", desc: "你極度聰明、專注且精力充沛。你的人生需要目標和挑戰，是天生的優等生和工作狂。如果沒有任務給你，你可能會感到無聊而做出一些『拆家』的行為。", img: "images/邊牧.jpg" },
+    goldenRetriever: { name: "黃金獵犬 (Golden Retriever)", desc: "你友善、忠誠、樂觀且極度熱愛社交。你是朋友間的陽光，隨時準備好給予擁抱。你溫和且易於訓練，但唯一的弱點可能是對食物的熱愛。", img: "images/金毛.jpg" },
+    shibaInu: { name: "柴犬 (Shiba Inu)", desc: "你高傲、固執且極度獨立。你很有自己的想法，不喜歡被人強迫。你雖然深情，但只會用自己的方式表達，是典型的『愛面子』專家。", img: "images/柴犬.jpg" },
+    chihuahua: { name: "吉娃娃 (Chihuahua)", desc: "你性情敏感多變，有時暴躁，但面對你在乎的人會展現出強烈的保護慾。你外表小巧，但內心卻是個勇敢的戰士，並且非常愛撒嬌。", img: "images/吉娃娃.jpg" },
+    poodle: { name: "貴賓犬 (Poodle)", desc: "你優雅、聰明且極度社交。你喜歡被關注、被讚美，並擁有細膩的感情。你的高智商讓你學得很快，但偶爾會有點愛吃醋。", img: "images/貴賓.jpg" },
+    husky: { name: "哈士奇 (Siberian Husky)", desc: "你戲劇化、愛說話，並充滿了不受拘束的獨立精神。你充滿好奇心和精力，有時顯得有點笨拙，但總能給周遭帶來歡樂和混亂。", img: "images/哈士奇.jpg" },
+    pug: { name: "巴哥犬 (Pug)", desc: "你是天生的喜劇演員，性格懶散、貪吃且非常幽默。你最喜歡的事情是睡覺和陪伴主人。你對運動興趣不大，但卻是最佳的沙發伴侶。", img: "images/巴哥.jpg" },
+    germanShepherd: { name: "德國牧羊犬 (German Shepherd)", desc: "你忠誠、嚴謹、專注且擁有強烈的保護慾。你是天生的領導者和守護者，重視秩序和規矩。你對待任務嚴肅，很少有幽默的一面。", img: "images/得牧.jpg" },
 };
 
 // ----------------------------------------------------
