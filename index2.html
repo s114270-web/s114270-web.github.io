@@ -1,29 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你是什麼狗 快速找出你的狗格</title>
-    <link rel="icon" href="images/小狗.jpg">
+    <title>你是哪種狗 快速測出你的狗格</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
         <div id="welcome-screen" class="screen active">
-            <h1>🐶 你是什麼狗 快速找出你 🦴</h1>
+            <h1>🐶 你是哪種狗<br>快速測出你的狗格 🦴</h1>
             <p>性格決定你的犬種！透過 15 個生活化問題，分析你的內在特質，看看你是哪種可愛狗狗。</p>
-            <button id="start-button">立即開始</button>
+            <button id="start-button">立即開始測驗</button>
         </div>
 
         <div id="quiz-screen" class="screen">
-            <h2 id="question-title"></h2>
+            <h2 id="question-title">載入中...</h2>
             <div id="options-container" class="options"></div>
             <p class="question-count">進度：<span id="current-q">1</span> / 15</p>
         </div>
 
         <div id="result-screen" class="screen">
-            <h2>測驗結果</h2>
+            <h2>你的狗格分析結果</h2>
             <div class="result-box">
                 <h3 id="result-dog-name"></h3>
                 <img id="result-dog-img" src="" alt="結果圖片">
