@@ -1,80 +1,201 @@
+/* =========================================
+   1. 全域變數與基礎設定
+   ========================================= */
 :root {
-    --primary-color: #ff9900;
-    --secondary-color: #fff8e1;
-    --text-color: #333;
+    --primary-color: #ff9900;    /* 狗狗暖橘色 */
+    --secondary-color: #fff8e1;  /* 柔和奶白色背景 */
+    --bg-white: #ffffff;
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: '微軟正黑體', 'Arial', sans-serif;
+    font-family: '微軟正黑體', 'PingFang TC', 'Arial', sans-serif;
     background-color: var(--secondary-color);
+    color: var(--text-dark);
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
+/* =========================================
+   2. 主容器佈局
+   ========================================= */
 .container {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    background: var(--bg-white);
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: var(--shadow);
     width: 90%;
-    max-width: 500px;
+    max-width: 550px;
     text-align: center;
+    position: relative;
 }
 
-.screen { display: none; }
-.screen.active { display: block; }
-
-.options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 20px 0;
+.screen {
+    display: none; /* 預設隱藏所有畫面 */
 }
 
-.option-card {
-    background-color: #fef0d7;
-    padding: 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-    border: 1px solid #f9d9a5;
+.screen.active {
+    display: block; /* 只顯示有 .active 類別的畫面 */
 }
 
-.option-card:hover {
-    background-color: #f9d9a5;
-    transform: scale(1.02);
+h1 {
+    color: var(--primary-color);
+    font-size: 1.8em;
+    margin-bottom: 15px;
 }
 
+p {
+    line-height: 1.6;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   3. 按鈕與選項樣式
+   ========================================= */
 button {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 14px 30px;
     border-radius: 50px;
-    cursor: pointer;
+    font-size: 1.1em;
     font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 10px rgba(255, 153, 0, 0.3);
 }
 
-#floating-restart {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #555;
-    font-size: 14px;
-    padding: 10px 15px;
-    opacity: 0.8;
+button:hover {
+    background-color: #e68a00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 153, 0, 0.4);
+}
+
+/* 問題選項卡片 */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.option-card {
+    background-color: #fffaf0;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1.5px solid #ffe0b2;
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition);
+    font-size: 1em;
+}
+
+.option-card:hover {
+    background-color: #fff3e0;
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.question-count {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 20px;
+}
+
+/* =========================================
+   4. 結果頁面美化
+   ========================================= */
+.result-box {
+    margin-top: 25px;
+    padding: 25px;
+    border: 3px dashed var(--primary-color);
+    border-radius: 20px;
+    background-color: #fffdf9;
+    animation: fadeInResult 0.8s ease-out forwards; /* 結果淡入效果 */
 }
 
 #result-dog-img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
     object-fit: cover;
-    margin: 15px 0;
-    border: 4px solid var(--primary-color);
+    margin-bottom: 20px;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-.hidden { display: none !important; }
+#result-dog-name {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+#result-dog-desc {
+    text-align: left;
+    color: #444;
+    font-size: 1.05em;
+    line-height: 1.7;
+    padding: 0 10px;
+}
+
+/* =========================================
+   5. 特殊組件 (右下角按鈕與動畫)
+   ========================================= */
+#floating-restart {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #333; /* 深灰色與主按鈕區隔 */
+    padding: 10px 18px;
+    font-size: 0.9em;
+    opacity: 0.8;
+    z-index: 999;
+}
+
+#floating-restart:hover {
+    opacity: 1;
+    background-color: #000;
+}
+
+/* 隱藏輔助類別 */
+.hidden {
+    display: none !important;
+}
+
+/* 結果頁淡入動畫 */
+@keyframes fadeInResult {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 手機版優化 */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    #result-dog-img {
+        width: 100%;
+        height: auto;
+    }
+}
