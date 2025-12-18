@@ -129,7 +129,12 @@ const results = {
     doberman: { name: "杜賓犬", desc: "你擁有精英氣質，自律且冷靜，面對挑戰從不畏縮。", img: "images/杜賓.jpg" },
     pomeranian: { name: "博美犬", desc: "你是自信的小精靈，愛撒嬌也愛挑戰，存在感極強。", img: "images/博美.jpg" },
     dachshund: { name: "臘腸犬", desc: "你擁有頑強的意志力，一旦下定決心就絕不回頭。", img: "images/臘腸.jpg" },
-    labrador: { name: "拉布拉多", desc: "你是穩定與友善的代名詞，適應力極強。", img: "images/拉布拉多.jpg" }
+    labrador: { name: "拉布拉多", desc: "你是穩定與友善的代名詞，適應力極強。", img: "images/拉布拉多.jpg" },
+    tingZhen: { 
+        name: "隱藏神祕版：黃庭溱", 
+        desc: "恭喜你抽中 10% 機率的隱藏結果！你不是狗狗，你是這個測驗的創造者。你聰明、幽默且富有創意，是全世界獨一無二的存在！", 
+        img: "images/庭溱.jpg" 
+    }
 };
 
 let currentIndex = 0;
@@ -185,15 +190,26 @@ function showResult() {
     resultScreen.classList.add('active');
     floatingRestart.classList.add('hidden');
 
-    let winner = 'goldenRetriever';
-    let max = -1;
-    for (let dog in scores) {
-        if (scores[dog] > max) {
-            max = scores[dog];
-            winner = dog;
+    // --- 隨機彩蛋邏輯開始 ---
+    let resultDogKey = '';
+    const randomLuck = Math.random(); // 產生 0 到 1 之間的隨機數
+
+    if (randomLuck < 0.1) { 
+        // 0.1 代表 10% 的機率會抽中你
+        resultDogKey = 'tingZhen';
+    } else {
+        // 90% 的機率會正常計算分數最高的狗
+        let max = -1;
+        for (let dog in scores) {
+            if (scores[dog] > max) {
+                max = scores[dog];
+                resultDogKey = dog;
+            }
         }
     }
-    const final = results[winner];
+    // --- 隨機彩蛋邏輯結束 ---
+
+    const final = results[resultDogKey];
     document.getElementById('result-dog-name').innerText = final.name;
     document.getElementById('result-dog-desc').innerText = final.desc;
     document.getElementById('result-dog-img').src = final.img;
