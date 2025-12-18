@@ -124,6 +124,24 @@ button:hover {
     opacity: 0.8;
 }
 
+.nav-buttons {
+    text-align: left; /* 讓按鈕靠左 */
+    margin-top: 20px;
+}
+
+.nav-btn {
+    background-color: #f0f0f0 !important; /* 淺灰色 */
+    color: #666 !important;
+    padding: 8px 16px !important;
+    font-size: 0.9em !important;
+    border: 1px solid #ddd !important;
+}
+
+/* 當按鈕隱藏時的樣式 */
+.nav-btn[style*="display: none"] {
+    display: none;
+}
+
 .hidden { display: none !important; }
 
 @keyframes fadeIn {
