@@ -133,7 +133,7 @@ const results = {
     tingZhen: { 
         name: "隱藏神祕版：黃庭溱", 
         desc: "恭喜你抽中 10% 機率的隱藏結果！你不是狗狗，你是這個測驗的創造者。你聰明、幽默且富有創意，是全世界獨一無二的存在！", 
-        img: "images/庭溱.jpg" 
+        img: "images/cj;cj;黃庭溱.jpg" 
     }
 };
 
