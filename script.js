@@ -130,7 +130,7 @@ const results = {
     poodle: { name: "貴賓犬 (Poodle)", desc: "你優雅、精明且充滿好奇心。你學習速度極快，並且非常在意細節與生活品味。你的實力確實配得上這份自信。", img: "images/貴賓.png" },
     husky: { name: "哈士奇 (Siberian Husky)", desc: "你的人生字典裡沒有「無聊」兩個字。你擁有不受拘束的精神與驚人的創造力，總能把平凡的生活過得像一齣喜劇。", img: "images/哈士奇.jpg" },
     pug: { name: "巴哥犬 (Pug)", desc: "你是快樂的現實主義者，認為「吃得好、睡得飽」就是最大的幸福。你幽默感十足，知足心讓你比任何人都活得自在。", img: "images/巴哥.jpg" },
-    germanShepherd: { name: "德國牧羊犬 (German Shepherd)", desc: "你擁有極強的責任感與領導潛力。你重視規則與秩序，對待任務嚴謹負責，是身邊人最信賴的守護者。", img: "images/德牧.jpg" },
+    germanShepherd: { name: "德國牧羊犬 (German Shepherd)", desc: "你擁有極強的責任感與領導潛力。你重視規則與秩序，對待任務嚴謹負責，是身邊人最信賴的守護者。", img: "images/得牧.jpg" },
     corgi: { name: "柯基犬 (Corgi)", desc: "你充滿活力且樂於社交。你熱情大方，對於想做的事情充滿幹勁。你是天生的社交達人，總能吸引眾人的目光。", img: "images/柯基.jpg" },
     beagle: { name: "米格魯 (Beagle)", desc: "你是一個好奇心過剩的探險家。一旦發現感興趣的事物，你就會全身心投入。你那份探索世界的熱情非常有感染力。", img: "images/米格魯.jpg" },
     samoyed: { name: "薩摩耶 (Samoyed)", desc: "你是治癒系的代表，擁有純真且樂觀的性格。你的笑容是最好的武器，總能輕易化解尷尬與衝突。", img: "images/薩摩耶.jpg" },
