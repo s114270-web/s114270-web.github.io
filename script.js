@@ -1,241 +1,200 @@
-// ----------------------------------------------------
-// I. 數據結構 (問題、結果、計分器)
-// ----------------------------------------------------
-
-// 1. 初始化計分器
 const scores = {
-    borderCollie: 0, // 邊牧
-    goldenRetriever: 0, // 黃金獵犬
-    shibaInu: 0, // 柴犬
-    chihuahua: 0, // 吉娃娃
-    poodle: 0, // 貴賓
-    husky: 0, // 哈士奇
-    pug: 0, // 巴哥
-    germanShepherd: 0, // 德牧
+    borderCollie: 0, goldenRetriever: 0, shibaInu: 0, chihuahua: 0,
+    poodle: 0, husky: 0, pug: 0, germanShepherd: 0,
+    corgi: 0, beagle: 0, samoyed: 0, doberman: 0,
+    pomeranian: 0, dachshund: 0, labrador: 0
 };
 
-// 2. 問題資料 (使用我們之前設計的 8 個問題)
 const questions = [
-    {
-        title: "Q1: 週末的理想活動是什麼？ (活動量/社交性)",
-        options: [
-            { text: "規劃一整天的戶外活動，例如登山或長跑。", score: { borderCollie: 3, husky: 3 } },
-            { text: "邀請朋友到家裡聚會，大家一起看電影或玩桌遊。", score: { goldenRetriever: 3, poodle: 3 } },
-            { text: "誰都不見，在溫暖的毯子裡睡到自然醒。", score: { pug: 3, chihuahua: 3 } },
-            { text: "獨立完成一個持續很久的個人項目或學習新技能。", score: { shibaInu: 3, germanShepherd: 3 } },
-            { text: "哪裡都無所謂，只要能吃到好吃的東西就好。", score: { pug: 3, goldenRetriever: 2 } },
-        ]
-    },
-    {
-        title: "Q2: 你在朋友聚會中扮演的角色是？ (個性/領導力)",
-        options: [
-            { text: "負責帶動氣氛，確保每個人都被照顧到。", score: { goldenRetriever: 3, poodle: 3 } },
-            { text: "默默觀察，只有在有人問到我擅長的領域時才開口。", score: { germanShepherd: 3, borderCollie: 3 } },
-            { text: "常常做出誇張的行為或反應，逗樂大家。", score: { husky: 3, chihuahua: 3 } },
-            { text: "我只負責可愛，並且隨和地跟著大家做決定。", score: { pug: 3 } },
-            { text: "我會保持距離，展現出我很獨立，不需要團體。", score: { shibaInu: 3, husky: 2 } },
-        ]
-    },
-    {
-        title: "Q3: 你的衣櫃裡通常是哪種風格的衣服？ (外觀/儀態)",
-        options: [
-            { text: "舒適、耐穿、適合運動，弄髒也沒關係。", score: { borderCollie: 3, goldenRetriever: 3 } },
-            { text: "剪裁精緻，搭配飾品，注重個人風格和流行感。", score: { poodle: 3 } },
-            { text: "簡單、低調，只要能遮住身體就好。", score: { shibaInu: 3, germanShepherd: 3 } },
-            { text: "鮮豔、有圖案，或是看起來很戲劇化的單品。", score: { husky: 3, chihuahua: 3 } },
-            { text: "舒服就好，最好是能馬上躺下的寬鬆家居服。", score: { pug: 3 } },
-        ]
-    },
-    {
-        title: "Q4: 你遇到挫折或壓力時，通常會如何處理？ (應對方式/情緒)",
-        options: [
-            { text: "嚴格分析問題，制定步驟，要求自己立即解決。", score: { germanShepherd: 3, borderCollie: 3 } },
-            { text: "找最親近的人撒嬌或討拍，希望能獲得安慰。", score: { chihuahua: 3, poodle: 3 } },
-            { text: "轉移注意力，去戶外跑一圈或做一些體力活。", score: { goldenRetriever: 3, husky: 3 } },
-            { text: "生悶氣，不想跟任何人說話，等自己冷靜。", score: { shibaInu: 3 } },
-            { text: "吃東西，用食物或睡覺來緩解焦慮。", score: { pug: 3 } },
-        ]
-    },
-    {
-        title: "Q5: 關於「個人空間」，你的態度是？ (親密關係/獨立性)",
-        options: [
-            { text: "無時無刻都想和親近的人黏在一起。", score: { goldenRetriever: 3, poodle: 3 } },
-            { text: "我需要大量的獨處時間，不喜歡別人干涉我的事情。", score: { shibaInu: 3, husky: 3 } },
-            { text: "雖然喜歡親近，但如果我覺得被侵犯了，我會立刻表示不滿。", score: { chihuahua: 3 } },
-            { text: "我不介意被人打擾，但前提是要一起做點有意義的事。", score: { borderCollie: 3, germanShepherd: 3 } },
-            { text: "只要在我身邊的人不吵到我睡覺，其他都無所謂。", score: { pug: 3 } },
-        ]
-    },
-    {
-        title: "Q6: 你的「保護慾」主要體現在？ (忠誠度/責任感)",
-        options: [
-            { text: "對於我在乎的人或東西，我會展現出極強的警惕和防禦性。", score: { germanShepherd: 3, chihuahua: 3 } },
-            { text: "我會用我的愛和溫柔去陪伴和支持我愛的人。", score: { goldenRetriever: 3, poodle: 3 } },
-            { text: "我只保護我自己，別人對我的看法不重要。", score: { shibaInu: 3 } },
-            { text: "我會保護我的「地盤」和「規則」，不允許混亂。", score: { borderCollie: 3 } },
-            { text: "什麼保護慾？我只負責可愛和被保護。", score: { pug: 3, husky: 2 } },
-        ]
-    },
-    {
-        title: "Q7: 你對待「新奇事物」或「新環境」的反應是？ (敏銳度/好奇心)",
-        options: [
-            { text: "立刻衝過去探索，越刺激越好。", score: { husky: 3 } },
-            { text: "先保持距離，仔細觀察細節後再決定是否靠近。", score: { shibaInu: 3, germanShepherd: 3 } },
-            { text: "感到緊張，可能會發出抱怨或不安的聲音。", score: { chihuahua: 3 } },
-            { text: "充滿好奇，但必須有人引導或帶領我。", score: { goldenRetriever: 3, poodle: 3 } },
-            { text: "只要不影響我現有的舒適狀態，我根本不會注意到。", score: { pug: 3 } },
-        ]
-    },
-    {
-        title: "Q8: 如果你被困在一棟房子裡，你會選擇如何離開？ (解決問題/行動力)",
-        options: [
-            { text: "測試所有門窗鎖，然後嘗試拆解最薄弱的環節。", score: { borderCollie: 3, germanShepherd: 3 } },
-            { text: "發出巨大的聲音或戲劇化的行為，吸引別人來救我。", score: { husky: 3 } },
-            { text: "找到一個舒服的地方坐下來等別人來，因為我知道我值得被救。", score: { shibaInu: 3, pug: 3 } },
-            { text: "哭泣或抱怨，直到有人被我的聲音引來為止。", score: { chihuahua: 3, poodle: 3 } },
-            { text: "試圖用蠻力撞開門，直到精疲力盡。", score: { goldenRetriever: 3 } },
-        ]
-    }
+    { title: "Q1: 難得的假日，你通常會怎麼安排？", options: [
+        { text: "去戶外大出汗，挑戰體能極限", score: { borderCollie: 3, husky: 3, doberman: 2, labrador: 2 } },
+        { text: "與好友聚餐，聊上一整天", score: { goldenRetriever: 3, samoyed: 3, labrador: 2, corgi: 2 } },
+        { text: "獨自在家研究感興趣的新技能", score: { shibaInu: 3, germanShepherd: 3, dachshund: 2, borderCollie: 2 } },
+        { text: "在床上躺到天荒地老，外送解決", score: { pug: 3, corgi: 2, chihuahua: 2 } },
+        { text: "精緻打扮後去逛街或看展覽", score: { poodle: 3, pomeranian: 3, samoyed: 2 } }
+    ]},
+    { title: "Q2: 遇到突發狀況（如電腦突然當機）你的反應是？", options: [
+        { text: "冷靜分析原因，嘗試各種修復方法", score: { germanShepherd: 3, borderCollie: 3, doberman: 3, poodle: 2 } },
+        { text: "尖叫或碎唸，表達不滿後找人求救", score: { husky: 3, chihuahua: 3, pomeranian: 3, samoyed: 2 } },
+        { text: "嘆口氣，先去吃點東西冷靜一下", score: { pug: 3, beagle: 3, labrador: 3, corgi: 2 } },
+        { text: "雖然焦慮，但會禮貌地請教懂的人", score: { goldenRetriever: 3, samoyed: 2, labrador: 2 } },
+        { text: "覺得很煩，乾脆放棄去做別的事", score: { shibaInu: 3, dachshund: 3, husky: 2 } }
+    ]},
+    { title: "Q3: 在團隊合作中，你比較偏向？", options: [
+        { text: "默默做事，把自己的份內事做到完美", score: { shibaInu: 3, dachshund: 3, germanShepherd: 2 } },
+        { text: "帶領大家，分配任務並確保效率", score: { germanShepherd: 3, doberman: 3, borderCollie: 3 } },
+        { text: "負責緩和氣氛，讓大家開心地工作", score: { samoyed: 3, goldenRetriever: 3, labrador: 3, corgi: 2 } },
+        { text: "提供各種古靈精怪的點子", score: { poodle: 3, beagle: 3, corgi: 2, husky: 2 } },
+        { text: "主要是跟隨，只要環境舒服就好", score: { pug: 3, chihuahua: 2, pomeranian: 2 } }
+    ]},
+    { title: "Q4: 關於吃，你的態度是？", options: [
+        { text: "只要好吃，不管熱量，吃到撐為止", score: { labrador: 3, beagle: 3, pug: 3, goldenRetriever: 2 } },
+        { text: "精緻美食，擺盤美不美很重要", score: { poodle: 3, pomeranian: 3, doberman: 2 } },
+        { text: "補充能量就好，講求快速有效率", score: { borderCollie: 3, germanShepherd: 2, doberman: 2 } },
+        { text: "喜歡跟人分享，大家一起吃更好吃", score: { goldenRetriever: 3, samoyed: 3, corgi: 2 } },
+        { text: "對食物很挑剔，只吃自己愛的那幾種", score: { shibaInu: 3, chihuahua: 3, dachshund: 3 } }
+    ]},
+    { title: "Q5: 當你進入一個全新的社交場合時？", options: [
+        { text: "立刻主動跟所有人打招呼", score: { samoyed: 3, labrador: 3, goldenRetriever: 3, beagle: 2 } },
+        { text: "先觀察環境，確定安全再行動", score: { germanShepherd: 3, doberman: 3, shibaInu: 3, dachshund: 2 } },
+        { text: "找個角落待著，等別人來找我", score: { pug: 3, corgi: 3, chihuahua: 2 } },
+        { text: "成為目光焦點，展示自己最好的一面", score: { poodle: 3, husky: 3, pomeranian: 3 } },
+        { text: "觀察有沒有好吃的或是好玩的", score: { beagle: 3, dachshund: 2, labrador: 2 } }
+    ]},
+    { title: "Q6: 你的房間通常看起來像什麼樣子？", options: [
+        { text: "極致整潔，所有東西都有固定的位置", score: { germanShepherd: 3, doberman: 3, poodle: 2 } },
+        { text: "亂中有序，只有我自己找得到東西", score: { shibaInu: 3, dachshund: 3, borderCollie: 2 } },
+        { text: "像被炸彈炸過，但我完全不在乎", score: { husky: 3, beagle: 3, pug: 2 } },
+        { text: "溫馨舒適，有很多抱枕和裝飾", score: { goldenRetriever: 3, samoyed: 3, pomeranian: 2 } },
+        { text: "普通，雖然想整理但總是明天再說", score: { corgi: 3, labrador: 3, pug: 2 } }
+    ]},
+    { title: "Q7: 朋友對你的第一印象通常是？", options: [
+        { text: "好專業、好冷靜，有點距離感", score: { doberman: 3, germanShepherd: 3, shibaInu: 2 } },
+        { text: "天啊！你也太熱情、太好笑了吧", score: { samoyed: 3, goldenRetriever: 3, husky: 3, labrador: 2 } },
+        { text: "非常有氣質，感覺生活過得很精緻", score: { poodle: 3, pomeranian: 3 } },
+        { text: "小小一隻，但感覺很有主見（氣勢強）", score: { chihuahua: 3, dachshund: 3, pomeranian: 2 } },
+        { text: "很溫和，感覺很好欺負（開玩笑地）", score: { pug: 3, corgi: 3, labrador: 2 } }
+    ]},
+    { title: "Q8: 遇到討厭的人故意挑釁你，你會？", options: [
+        { text: "冷靜瞪著他，用眼神和氣場逼退對方", score: { doberman: 3, germanShepherd: 3, shibaInu: 2 } },
+        { text: "直接大聲反擊，絕對不吃虧", score: { chihuahua: 3, pomeranian: 3, dachshund: 2 } },
+        { text: "尷尬地笑笑，試圖快速逃離現場", score: { pug: 3, goldenRetriever: 2, corgi: 2 } },
+        { text: "裝作沒聽到，繼續做自己的事", score: { borderCollie: 3, shibaInu: 2, poodle: 2 } },
+        { text: "用幽默的方式化解尷尬", score: { husky: 3, samoyed: 2, labrador: 2 } }
+    ]},
+    { title: "Q9: 你理想的旅行方式是？", options: [
+        { text: "行前做足功課，精確到分秒的行程表", score: { borderCollie: 3, germanShepherd: 3, poodle: 2 } },
+        { text: "探索沒去過的祕境，越刺激越好", score: { husky: 3, beagle: 3, doberman: 2 } },
+        { text: "住在高級飯店，享受放鬆的服務", score: { poodle: 3, pomeranian: 3, pug: 2 } },
+        { text: "走到哪算哪，隨興地感受當地生活", score: { labrador: 3, corgi: 3, goldenRetriever: 2 } },
+        { text: "只要跟喜歡的朋友在一起，哪裡都好", score: { samoyed: 3, goldenRetriever: 3, labrador: 2 } }
+    ]},
+    { title: "Q10: 你睡覺時的習慣通常是？", options: [
+        { text: "睡相超差，會滾來滾去甚至踢人", score: { husky: 3, labrador: 3, corgi: 2 } },
+        { text: "縮成一小團，佔據床的一角", score: { chihuahua: 3, dachshund: 3, pomeranian: 2 } },
+        { text: "規規矩矩地平躺，幾乎不動", score: { germanShepherd: 3, doberman: 3, poodle: 2 } },
+        { text: "一定要抱著東西或貼著人睡", score: { goldenRetriever: 3, samoyed: 3, pug: 3 } },
+        { text: "隨時隨地都能秒睡，打呼聲還很大", score: { pug: 3, beagle: 3, shibaInu: 2 } }
+    ]},
+    { title: "Q11: 面對一件全新的高科技產品，你會？", options: [
+        { text: "不看說明書，自己摸索出所有功能", score: { borderCollie: 3, poodle: 3, beagle: 2 } },
+        { text: "仔細閱讀說明書，按部就班操作", score: { germanShepherd: 3, doberman: 3, dachshund: 2 } },
+        { text: "研究它美不美，跟我的穿搭合不合", score: { pomeranian: 3, poodle: 2, samoyed: 2 } },
+        { text: "隨便亂按，按壞了再找人修", score: { husky: 3, chihuahua: 2, corgi: 2 } },
+        { text: "覺得很酷，想趕快分享給朋友看", score: { labrador: 3, goldenRetriever: 3, samoyed: 2 } }
+    ]},
+    { title: "Q12: 如果看到路邊有一隻流浪貓，你會？", options: [
+        { text: "輕聲細語地靠近，試圖跟牠交朋友", score: { samoyed: 3, goldenRetriever: 3, labrador: 2 } },
+        { text: "保持警覺，遠遠觀察牠的一舉一動", score: { shibaInu: 3, germanShepherd: 3, doberman: 2 } },
+        { text: "興奮地衝過去想跟牠玩（雖然可能會嚇到牠）", score: { husky: 3, beagle: 3, corgi: 2 } },
+        { text: "想辦法弄點吃的給牠", score: { labrador: 3, pug: 3, goldenRetriever: 2 } },
+        { text: "覺得牠很可愛，立刻拿出手機狂拍", score: { poodle: 3, pomeranian: 3, corgi: 2 } }
+    ]},
+    { title: "Q13: 你的「社交電力」通常可以維持多久？", options: [
+        { text: "我是超級電池，可以連玩三天三夜不休息", score: { samoyed: 3, labrador: 3, goldenRetriever: 3, husky: 2 } },
+        { text: "大約 3 小時，之後就想回家一個人靜靜", score: { shibaInu: 3, dachshund: 3, chihuahua: 2 } },
+        { text: "只要有美食和舒服的位子，我可以很久", score: { pug: 3, corgi: 3, beagle: 2 } },
+        { text: "看對象，遇到合得來的人就不會累", score: { borderCollie: 3, germanShepherd: 2, doberman: 2 } },
+        { text: "我需要適時的讚美來幫我充電", score: { poodle: 3, pomeranian: 3, samoyed: 2 } }
+    ]},
+    { title: "Q14: 關於穿著，你最在意的是？", options: [
+        { text: "功能性，要方便運動和工作", score: { borderCollie: 3, germanShepherd: 3, labrador: 2 } },
+        { text: "品牌與質感，這代表了我的身份", score: { doberman: 3, poodle: 3, pomeranian: 2 } },
+        { text: "舒適度，軟綿綿的材質最棒了", score: { pug: 3, goldenRetriever: 2, labrador: 2 } },
+        { text: "一定要有亮點，讓人一眼就看到我", score: { husky: 3, samoyed: 3, corgi: 2 } },
+        { text: "穿自己喜歡的就好，管別人怎麼看", score: { shibaInu: 3, dachshund: 3, chihuahua: 2 } }
+    ]},
+    { title: "Q15: 你的終極人生目標比較接近？", options: [
+        { text: "成為專業領域的頂尖專家", score: { borderCollie: 3, germanShepherd: 3, doberman: 3, poodle: 2 } },
+        { text: "環遊世界，體驗各種刺激的生活", score: { husky: 3, beagle: 3, labrador: 2 } },
+        { text: "建立溫暖的家庭，身邊都是愛的人", score: { goldenRetriever: 3, samoyed: 3, labrador: 3, corgi: 2 } },
+        { text: "過著精緻且受人景仰的生活", score: { poodle: 3, pomeranian: 3, shibaInu: 2 } },
+        { text: "平平安安、無憂無慮地吃飽睡好", score: { pug: 3, corgi: 3, dachshund: 2 } }
+    ]}
 ];
 
-// 3. 結果描述 (請記得為每個犬種找到一張合適的圖片)
+// 結果描述與【中文圖片名稱】
 const results = {
-    borderCollie: { name: "邊境牧羊犬 (Border Collie)", desc: "你極度聰明、專注且精力充沛。你的人生需要目標和挑戰，是天生的優等生和工作狂。如果沒有任務給你，你可能會感到無聊而做出一些『拆家』的行為。", img: "images/邊牧.jpg" },
-    goldenRetriever: { name: "黃金獵犬 (Golden Retriever)", desc: "你友善、忠誠、樂觀且極度熱愛社交。你是朋友間的陽光，隨時準備好給予擁抱。你溫和且易於訓練，但唯一的弱點可能是對食物的熱愛。", img: "images/金毛.jpg" },
-    shibaInu: { name: "柴犬 (Shiba Inu)", desc: "你高傲、固執且極度獨立。你很有自己的想法，不喜歡被人強迫。你雖然深情，但只會用自己的方式表達，是典型的『愛面子』專家。", img: "images/柴犬.jpg" },
-    chihuahua: { name: "吉娃娃 (Chihuahua)", desc: "你性情敏感多變，有時暴躁，但面對你在乎的人會展現出強烈的保護慾。你外表小巧，但內心卻是個勇敢的戰士，並且非常愛撒嬌。", img: "images/吉娃娃.jpg" },
-    poodle: { name: "貴賓犬 (Poodle)", desc: "你優雅、聰明且極度社交。你喜歡被關注、被讚美，並擁有細膩的感情。你的高智商讓你學得很快，但偶爾會有點愛吃醋。", img: "images/貴賓.jpg" },
-    husky: { name: "哈士奇 (Siberian Husky)", desc: "你戲劇化、愛說話，並充滿了不受拘束的獨立精神。你充滿好奇心和精力，有時顯得有點笨拙，但總能給周遭帶來歡樂和混亂。", img: "images/哈士奇.jpg" },
-    pug: { name: "巴哥犬 (Pug)", desc: "你是天生的喜劇演員，性格懶散、貪吃且非常幽默。你最喜歡的事情是睡覺和陪伴主人。你對運動興趣不大，但卻是最佳的沙發伴侶。", img: "images/巴哥.jpg" },
-    germanShepherd: { name: "德國牧羊犬 (German Shepherd)", desc: "你忠誠、嚴謹、專注且擁有強烈的保護慾。你是天生的領導者和守護者，重視秩序和規矩。你對待任務嚴肅，很少有幽默的一面。", img: "images/得牧.jpg" },
+    borderCollie: { name: "邊境牧羊犬", desc: "你是高智商的代表，總是能快速解決問題。", img: "images/邊牧.jpg" },
+    goldenRetriever: { name: "黃金獵犬", desc: "你是大家的開心果，暖心且溫柔，對世界充滿愛。", img: "images/金毛.jpg" },
+    shibaInu: { name: "柴犬", desc: "你有強烈的個人風格，不隨波逐流，固執中帶點幽默。", img: "images/柴犬.jpg" },
+    chihuahua: { name: "吉娃娃", desc: "你情感豐富且警覺性高，體型小但內心有巨大勇氣。", img: "images/吉娃娃.jpg" },
+    poodle: { name: "貴賓犬", desc: "你優雅且學習力極強，注重生活品質與個人形象。", img: "images/貴賓.jpg" },
+    husky: { name: "哈士奇", desc: "你的人生充滿驚喜，不按牌理出牌的你總能帶來歡樂。", img: "images/哈士奇.jpg" },
+    pug: { name: "巴哥犬", desc: "你追求絕對的舒適與放鬆，知足常樂，是最佳伴侶。", img: "images/巴哥.jpg" },
+    germanShepherd: { name: "德國牧羊犬", desc: "你可靠且充滿正義感，是身邊人的守護者。", img: "images/德牧.jpg" },
+    corgi: { name: "柯基犬", desc: "你雖然步子小但活力無窮，社交能力極佳。", img: "images/柯基.jpg" },
+    beagle: { name: "米格魯", desc: "你對世界充滿好奇，靈敏的直覺帶領你不斷探索。", img: "images/米格魯.jpg" },
+    samoyed: { name: "薩摩耶", desc: "你是治癒的化身，那燦爛的笑容可以融化任何人的心。", img: "images/薩摩耶.jpg" },
+    doberman: { name: "杜賓犬", desc: "你擁有精英氣質，自律且冷靜，面對挑戰從不畏縮。", img: "images/杜賓.jpg" },
+    pomeranian: { name: "博美犬", desc: "你是自信的小精靈，愛撒嬌也愛挑戰，存在感極強。", img: "images/博美.jpg" },
+    dachshund: { name: "臘腸犬", desc: "你擁有頑強的意志力，一旦下定決心就絕不回頭。", img: "images/臘腸.jpg" },
+    labrador: { name: "拉布拉多", desc: "你是穩定與友善的代名詞，適應力極強。", img: "images/拉布拉多.jpg" }
 };
 
-// ----------------------------------------------------
-// II. 流程控制 (變數與事件監聽)
-// ----------------------------------------------------
+let currentIndex = 0;
 
-let currentQuestionIndex = 0; // 當前題目索引
-
-// 獲取 DOM 元素
-const startButton = document.getElementById('start-button');
-const restartButton = document.getElementById('restart-button');
+const startBtn = document.getElementById('start-button');
+const restartBtn = document.getElementById('restart-result-button');
+const floatingRestart = document.getElementById('floating-restart');
 const welcomeScreen = document.getElementById('welcome-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
-const questionTitle = document.getElementById('question-title');
-const optionsContainer = document.getElementById('options-container');
-const currentQDisplay = document.getElementById('current-q');
 
-// --- 事件監聽 ---
+const resetGame = () => {
+    currentIndex = 0;
+    for (let key in scores) scores[key] = 0;
+    welcomeScreen.classList.add('active');
+    quizScreen.classList.remove('active');
+    resultScreen.classList.remove('active');
+    floatingRestart.classList.add('hidden');
+};
 
-// 1. 開始測驗
-startButton.addEventListener('click', () => {
+startBtn.onclick = () => {
     welcomeScreen.classList.remove('active');
     quizScreen.classList.add('active');
-    loadQuestion(currentQuestionIndex);
-});
+    floatingRestart.classList.remove('hidden');
+    loadQ();
+};
 
-// 2. 重新測驗
-restartButton.addEventListener('click', () => {
-    // 重置所有變數和分數
-    currentQuestionIndex = 0;
-    for (const dog in scores) {
-        scores[dog] = 0;
-    }
-    resultScreen.classList.remove('active');
-    welcomeScreen.classList.add('active');
-});
+restartBtn.onclick = resetGame;
+floatingRestart.onclick = resetGame;
 
-// --- 主要函數 ---
-
-/**
- * 載入並顯示當前題目。
- * @param {number} index - 問題在 questions 陣列中的索引。
- */
-function loadQuestion(index) {
-    if (index >= questions.length) {
-        // 題目結束，顯示結果
-        showResult();
-        return;
-    }
-
-    const currentQuestion = questions[index];
-    
-    // 更新標題和進度條
-    questionTitle.textContent = currentQuestion.title;
-    currentQDisplay.textContent = index + 1;
-    optionsContainer.innerHTML = ''; // 清空舊選項
-
-    // 創建選項卡
-    currentQuestion.options.forEach(option => {
-        const optionCard = document.createElement('div');
-        optionCard.classList.add('option-card');
-        optionCard.textContent = option.text;
-        
-        // 為選項卡添加點擊事件
-        optionCard.addEventListener('click', () => {
-            handleAnswer(option.score);
-        });
-
-        optionsContainer.appendChild(optionCard);
+function loadQ() {
+    if (currentIndex >= questions.length) return showResult();
+    const q = questions[currentIndex];
+    document.getElementById('question-title').innerText = q.title;
+    document.getElementById('current-q').innerText = currentIndex + 1;
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    q.options.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = 'option-card';
+        div.innerText = opt.text;
+        div.onclick = () => {
+            for (let dog in opt.score) scores[dog] += opt.score[dog];
+            currentIndex++;
+            loadQ();
+        };
+        container.appendChild(div);
     });
 }
 
-/**
- * 處理使用者選擇的答案，更新分數，並載入下一題。
- * @param {object} scoreData - 包含分數增量的物件。
- */
-function handleAnswer(scoreData) {
-    // 根據答案更新分數
-    for (const dog in scoreData) {
-        // 確保分數存在且是數字
-        if (scores.hasOwnProperty(dog) && typeof scoreData[dog] === 'number') {
-             scores[dog] += scoreData[dog];
-        }
-    }
-
-    // 進入下一題
-    currentQuestionIndex++;
-    loadQuestion(currentQuestionIndex);
-}
-
-/**
- * 計算總分並顯示最終結果。
- */
 function showResult() {
     quizScreen.classList.remove('active');
     resultScreen.classList.add('active');
+    floatingRestart.classList.add('hidden');
 
-    // 找出分數最高的犬種
-    let maxScore = -1;
-    let tiedDogs = []; // 用來儲存所有分數最高的犬種
-
-    for (const dog in scores) {
-        if (scores[dog] > maxScore) {
-            maxScore = scores[dog];
-            tiedDogs = [dog]; // 發現更高分數，清空舊名單
-        } else if (scores[dog] === maxScore && maxScore > 0) {
-            tiedDogs.push(dog); // 分數一樣高，加入名單
+    let winner = 'goldenRetriever';
+    let max = -1;
+    for (let dog in scores) {
+        if (scores[dog] > max) {
+            max = scores[dog];
+            winner = dog;
         }
     }
-    
-    let resultDogKey = '';
-
-    if (tiedDogs.length > 0) {
-        // 如果有平手，隨機選擇其中一個
-        const randomIndex = Math.floor(Math.random() * tiedDogs.length);
-        resultDogKey = tiedDogs[randomIndex];
-    } else {
-        // 應急處理：如果分數全為零 (理論上不會發生)
-        resultDogKey = 'goldenRetriever'; 
-    }
-    
-    const finalResult = results[resultDogKey];
-
-    // 顯示結果
-    document.getElementById('result-dog-name').textContent = finalResult.name;
-    document.getElementById('result-dog-desc').textContent = finalResult.desc;
-    
-    // 設置圖片路徑
-    document.getElementById('result-dog-img').src = finalResult.img; 
+    const final = results[winner];
+    document.getElementById('result-dog-name').innerText = final.name;
+    document.getElementById('result-dog-desc').innerText = final.desc;
+    document.getElementById('result-dog-img').src = final.img;
 }
