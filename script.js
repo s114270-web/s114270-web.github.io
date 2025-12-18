@@ -148,42 +148,69 @@ const results = {
 
 };
 
-/* --- 貼在結果區 }; 的下面 --- */
+/* --- 從這裡開始替換 (結果區的 }; 之後) --- */
 
 let currentIndex = 0;
-let userAnswers = []; // 這就是你的「記憶卡」，會記住每一題選了什麼
+let userAnswers = []; // 儲存每一題的答案索引，例如 [0, 2, 1...]
 
-// 1. 告訴程式按鈕在哪裡
-const prevBtn = document.getElementById('prev-button');
-const startBtn = document.getElementById('start-button');
-const restartBtn = document.getElementById('restart-result-button');
-const floatingRestart = document.getElementById('floating-restart');
+// 取得畫面元素
 const welcomeScreen = document.getElementById('welcome-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
+const startBtn = document.getElementById('start-button');
+const restartBtn = document.getElementById('restart-result-button');
+const floatingRestart = document.getElementById('floating-restart');
 
-// 2. 當點擊「上一題」要做的事
-prevBtn.onclick = () => {
-    if (currentIndex > 0) {
-        currentIndex--; // 題號減一
-        loadQ(); // 重新載入畫面
-    }
+// 遊戲初始化/重置功能
+const resetGame = () => {
+    currentIndex = 0;
+    userAnswers = [];
+    welcomeScreen.classList.add('active');
+    quizScreen.classList.remove('active');
+    resultScreen.classList.remove('active');
+    floatingRestart.classList.add('hidden');
 };
 
-// 3. 載入題目的主要功能
+// 綁定開始與重頭開始按鈕
+startBtn.onclick = () => {
+    welcomeScreen.classList.remove('active');
+    quizScreen.classList.add('active');
+    floatingRestart.classList.remove('hidden');
+    loadQ();
+};
+restartBtn.onclick = resetGame;
+floatingRestart.onclick = resetGame;
+
+// 核心功能：載入題目
 function loadQ() {
+    // 如果題號超過總數，顯示結果
     if (currentIndex >= questions.length) {
         showResult();
         return;
     }
 
-    // 第一題時，隱藏「上一題」按鈕；其他題才顯示
-    prevBtn.style.display = (currentIndex === 0) ? "none" : "block";
+    // --- 【上一題按鈕邏輯區】 ---
+    const prevBtn = document.getElementById('prev-button');
+    if (prevBtn) {
+        // 第一題隱藏，第二題開始顯示
+        prevBtn.style.display = (currentIndex === 0) ? "none" : "block";
+        
+        // 點擊事件：題號減一，重新載入
+        prevBtn.onclick = (e) => {
+            e.stopPropagation(); // 防止干擾
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadQ();
+            }
+        };
+    }
 
+    // 顯示標題與進度
     const q = questions[currentIndex];
     document.getElementById('question-title').innerText = q.title;
     document.getElementById('current-q').innerText = currentIndex + 1;
     
+    // 清空並生成選項
     const container = document.getElementById('options-container');
     container.innerHTML = '';
 
@@ -191,17 +218,19 @@ function loadQ() {
         const div = document.createElement('div');
         div.className = 'option-card';
         
-        // 如果這題之前選過，就把顏色變深
+        // 【記憶效果】如果這題之前選過，標示出來
         if (userAnswers[currentIndex] === index) {
             div.style.borderColor = "#ff9900";
             div.style.backgroundColor = "#fff3e0";
         }
         
         div.innerText = opt.text;
+        
+        // 點擊選項：儲存答案並進入下一題
         div.onclick = () => {
-            userAnswers[currentIndex] = index; // 記憶你的選擇
+            userAnswers[currentIndex] = index; // 記憶答案
             setTimeout(() => {
-                currentIndex++; // 自動跳下一題
+                currentIndex++;
                 loadQ();
             }, 250);
         };
@@ -209,15 +238,16 @@ function loadQ() {
     });
 }
 
-// 4. 計算結果（這是防止重複計分的關鍵）
+// 核心功能：計算並顯示結果
 function showResult() {
     quizScreen.classList.remove('active');
     resultScreen.classList.add('active');
     floatingRestart.classList.add('hidden');
 
-    // 計算前先把所有分數歸零，重新根據「記憶卡」計算一次
+    // 1. 重要：先將所有狗狗分數歸零，重新計算
     for (let dog in scores) scores[dog] = 0;
-    
+
+    // 2. 根據 userAnswers 的紀錄來累加分數 (避免重複加分)
     userAnswers.forEach((ansIdx, qIdx) => {
         const selectedOpt = questions[qIdx].options[ansIdx];
         for (let dog in selectedOpt.score) {
@@ -225,29 +255,24 @@ function showResult() {
         }
     });
 
-    // 找出得分最高的狗狗...（後面的邏輯自動執行）
-    let resKey = (Math.random() < 0.1) ? 'tingZhen' : Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-    
-    const final = results[resKey];
-    document.getElementById('result-dog-name').innerText = final.name;
-    document.getElementById('result-dog-desc').innerText = final.desc;
-    document.getElementById('result-dog-img').src = final.img;
+    let resKey = '';
+    // 3. 10% 機率觸發庭溱驚喜
+    if (Math.random() < 0.1) {
+        resKey = 'tingZhen';
+    } else {
+        // 找出最高分的狗狗
+        let maxScore = -1;
+        for (let dog in scores) {
+            if (scores[dog] > maxScore) {
+                maxScore = scores[dog];
+                resKey = dog;
+            }
+        }
+    }
+
+    // 4. 渲染結果到畫面
+    const finalDog = results[resKey];
+    document.getElementById('result-dog-name').innerText = finalDog.name;
+    document.getElementById('result-dog-desc').innerText = finalDog.desc;
+    document.getElementById('result-dog-img').src = finalDog.img;
 }
-
-// 啟動與重啟的設定
-startBtn.onclick = () => {
-    welcomeScreen.classList.remove('active');
-    quizScreen.classList.add('active');
-    floatingRestart.classList.remove('hidden');
-    loadQ();
-};
-
-const resetGame = () => {
-    currentIndex = 0; userAnswers = [];
-    welcomeScreen.classList.add('active');
-    quizScreen.classList.remove('active');
-    resultScreen.classList.remove('active');
-    floatingRestart.classList.add('hidden');
-};
-restartBtn.onclick = resetGame;
-floatingRestart.onclick = resetGame;
