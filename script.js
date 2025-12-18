@@ -124,10 +124,10 @@ const questions = [
 // =========================================
 const results = {
     borderCollie: { name: "邊境牧羊犬 (Border Collie)", desc: "你是天生的「優等生」。擁有極高的智商與敏銳的觀察力。你追求目標時充滿動力，但有時會因為給自己太大壓力而感到焦慮。建議偶爾放慢腳步。", img: "images/邊牧.jpg" },
-    goldenRetriever: { name: "黃金獵犬 (Golden Retriever)", desc: "你是溫暖的代名詞。在朋友眼中，你是一個完美的傾聽者。你熱愛和平，但也因為太想讓每個人開心，有時會忽略了自己的需求。", img: "images/金毛.jpg" },
-    shibaInu: { name: "柴犬 (Shiba Inu)", desc: "你擁有強烈的自我意識與獨特的美學。你並不孤僻，只是非常挑選能夠進入你內心的人。你是典型的「內冷外熱」。", img: "images/柴犬.jpg" },
+    goldenRetriever: { name: "黃金獵犬 (Golden Retriever)", desc: "你是溫暖的代名詞。在朋友眼中，你是一個完美的傾聽者。你熱愛和平，但也因為太想讓每個人開心，有時會忽略了自己的需求。", img: "images/金毛.jpeg" },
+    shibaInu: { name: "柴犬 (Shiba Inu)", desc: "你擁有強烈的自我意識與獨特的美學。你並不孤僻，只是非常挑選能夠進入你內心的人。你是典型的「內冷外熱」。", img: "images/柴犬.png" },
     chihuahua: { name: "吉娃娃 (Chihuahua)", desc: "你外表看似嬌小，但內心卻有一座隨時會爆發的小火山。你對在乎的人極度忠誠且充滿保護慾。你是朋友圈中最勇敢的戰士。", img: "images/吉娃娃.jpg" },
-    poodle: { name: "貴賓犬 (Poodle)", desc: "你優雅、精明且充滿好奇心。你學習速度極快，並且非常在意細節與生活品味。你的實力確實配得上這份自信。", img: "images/貴賓.jpg" },
+    poodle: { name: "貴賓犬 (Poodle)", desc: "你優雅、精明且充滿好奇心。你學習速度極快，並且非常在意細節與生活品味。你的實力確實配得上這份自信。", img: "images/貴賓.png" },
     husky: { name: "哈士奇 (Siberian Husky)", desc: "你的人生字典裡沒有「無聊」兩個字。你擁有不受拘束的精神與驚人的創造力，總能把平凡的生活過得像一齣喜劇。", img: "images/哈士奇.jpg" },
     pug: { name: "巴哥犬 (Pug)", desc: "你是快樂的現實主義者，認為「吃得好、睡得飽」就是最大的幸福。你幽默感十足，知足心讓你比任何人都活得自在。", img: "images/巴哥.jpg" },
     germanShepherd: { name: "德國牧羊犬 (German Shepherd)", desc: "你擁有極強的責任感與領導潛力。你重視規則與秩序，對待任務嚴謹負責，是身邊人最信賴的守護者。", img: "images/德牧.jpg" },
