@@ -148,11 +148,13 @@ const results = {
 
 };
 
-// =========================================
-// 4. 流程控制 (邏輯核心)
-// =========================================
-let currentIndex = 0;
+/* --- 貼在結果區 }; 的下面 --- */
 
+let currentIndex = 0;
+let userAnswers = []; // 這就是你的「記憶卡」，會記住每一題選了什麼
+
+// 1. 告訴程式按鈕在哪裡
+const prevBtn = document.getElementById('prev-button');
 const startBtn = document.getElementById('start-button');
 const restartBtn = document.getElementById('restart-result-button');
 const floatingRestart = document.getElementById('floating-restart');
@@ -160,17 +162,79 @@ const welcomeScreen = document.getElementById('welcome-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultScreen = document.getElementById('result-screen');
 
-// 函數：開始/重置測驗
-const resetGame = () => {
-    currentIndex = 0;
-    for (let key in scores) scores[key] = 0;
-    welcomeScreen.classList.add('active');
-    quizScreen.classList.remove('active');
-    resultScreen.classList.remove('active');
-    floatingRestart.classList.add('hidden');
+// 2. 當點擊「上一題」要做的事
+prevBtn.onclick = () => {
+    if (currentIndex > 0) {
+        currentIndex--; // 題號減一
+        loadQ(); // 重新載入畫面
+    }
 };
 
-// 事件監聽：開始按鈕
+// 3. 載入題目的主要功能
+function loadQ() {
+    if (currentIndex >= questions.length) {
+        showResult();
+        return;
+    }
+
+    // 第一題時，隱藏「上一題」按鈕；其他題才顯示
+    prevBtn.style.display = (currentIndex === 0) ? "none" : "block";
+
+    const q = questions[currentIndex];
+    document.getElementById('question-title').innerText = q.title;
+    document.getElementById('current-q').innerText = currentIndex + 1;
+    
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+
+    q.options.forEach((opt, index) => {
+        const div = document.createElement('div');
+        div.className = 'option-card';
+        
+        // 如果這題之前選過，就把顏色變深
+        if (userAnswers[currentIndex] === index) {
+            div.style.borderColor = "#ff9900";
+            div.style.backgroundColor = "#fff3e0";
+        }
+        
+        div.innerText = opt.text;
+        div.onclick = () => {
+            userAnswers[currentIndex] = index; // 記憶你的選擇
+            setTimeout(() => {
+                currentIndex++; // 自動跳下一題
+                loadQ();
+            }, 250);
+        };
+        container.appendChild(div);
+    });
+}
+
+// 4. 計算結果（這是防止重複計分的關鍵）
+function showResult() {
+    quizScreen.classList.remove('active');
+    resultScreen.classList.add('active');
+    floatingRestart.classList.add('hidden');
+
+    // 計算前先把所有分數歸零，重新根據「記憶卡」計算一次
+    for (let dog in scores) scores[dog] = 0;
+    
+    userAnswers.forEach((ansIdx, qIdx) => {
+        const selectedOpt = questions[qIdx].options[ansIdx];
+        for (let dog in selectedOpt.score) {
+            scores[dog] += selectedOpt.score[dog];
+        }
+    });
+
+    // 找出得分最高的狗狗...（後面的邏輯自動執行）
+    let resKey = (Math.random() < 0.1) ? 'tingZhen' : Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+    
+    const final = results[resKey];
+    document.getElementById('result-dog-name').innerText = final.name;
+    document.getElementById('result-dog-desc').innerText = final.desc;
+    document.getElementById('result-dog-img').src = final.img;
+}
+
+// 啟動與重啟的設定
 startBtn.onclick = () => {
     welcomeScreen.classList.remove('active');
     quizScreen.classList.add('active');
@@ -178,66 +242,12 @@ startBtn.onclick = () => {
     loadQ();
 };
 
-// 事件監聽：重測按鈕
+const resetGame = () => {
+    currentIndex = 0; userAnswers = [];
+    welcomeScreen.classList.add('active');
+    quizScreen.classList.remove('active');
+    resultScreen.classList.remove('active');
+    floatingRestart.classList.add('hidden');
+};
 restartBtn.onclick = resetGame;
 floatingRestart.onclick = resetGame;
-
-// 函數：載入題目
-function loadQ() {
-    if (currentIndex >= questions.length) {
-        showResult();
-        return;
-    }
-    const q = questions[currentIndex];
-    document.getElementById('question-title').innerText = q.title;
-    document.getElementById('current-q').innerText = currentIndex + 1;
-    
-    const container = document.getElementById('options-container');
-    container.innerHTML = ''; // 清空選項
-    
-    q.options.forEach(opt => {
-        const div = document.createElement('div');
-        div.className = 'option-card';
-        div.innerText = opt.text;
-        div.onclick = () => {
-            // 累計分數
-            for (let dog in opt.score) {
-                if (scores.hasOwnProperty(dog)) {
-                    scores[dog] += opt.score[dog];
-                }
-            }
-            currentIndex++;
-            loadQ();
-        };
-        container.appendChild(div);
-    });
-}
-
-// 函數：顯示結果 (含彩蛋邏輯)
-function showResult() {
-    quizScreen.classList.remove('active');
-    resultScreen.classList.add('active');
-    floatingRestart.classList.add('hidden');
-
-    let resultKey = '';
-    const randomLuck = Math.random();
-
-    if (randomLuck < 0.1) {
-        // 10% 機率出現黃庭溱
-        resultKey = 'tingZhen';
-    } else {
-        // 計算最高分
-        let max = -1;
-        for (let dog in scores) {
-            if (scores[dog] > max) {
-                max = scores[dog];
-                resultKey = dog;
-            }
-        }
-    }
-
-    const final = results[resultKey];
-    document.getElementById('result-dog-name').innerText = final.name;
-    document.getElementById('result-dog-desc').innerText = final.desc;
-    document.getElementById('result-dog-img').src = final.img;
-}
