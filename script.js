@@ -137,7 +137,7 @@ const results = {
     doberman: { name: "杜賓犬 (Doberman)", desc: "你擁有精英氣質，極度自律，對生活有嚴格要求。在親近的人面前，你展現出無比的溫柔與忠誠。", img: "images/杜賓.jpg" },
     pomeranian: { name: "博美犬 (Pomeranian)", desc: "你是自信且迷人的小可愛，擁有強大的氣場。你非常清楚自己想要什麼，是絕對不會被忽視的存在。", img: "images/博美.jpg" },
     dachshund: { name: "臘腸犬 (Dachshund)", desc: "你擁有驚人的毅力與韌性。一旦目標確定，不管路有多遠你都會走完。那份「死不認輸」的勇氣是你的特質。", img: "images/臘腸.jpg" },
-    labrador: { name: "拉布拉多 (Labrador)", desc: "你是穩定與友善的化身。你做事踏實，不愛出風頭，是讓人感到極度踏實的對象，適應能力驚人。", img: "images/拉布拉多.jpg" },
+    labrador: { name: "拉布拉多 (Labrador)", desc: "你是穩定與友善的化身。你做事踏實，不愛出風頭，是讓人感到極度踏實的對象，適應能力驚人。", img: "images/拉不拉多.jpg" },
     
     // 彩蛋
     tingZhen: { 
